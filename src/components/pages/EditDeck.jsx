@@ -37,7 +37,7 @@ function EditDeck({ decksId, categoryId, setShowForm, showForm, deckData }) {
     }
     return (
       <div className="card-edit-container" key={`decks-${idx}`}>
-        <h2>Card {idx+1}</h2>
+        <h2>Card {idx + 1}</h2>
         <label htmlFor="question">Question:</label>
         <textarea
           type="text"
@@ -50,7 +50,7 @@ function EditDeck({ decksId, categoryId, setShowForm, showForm, deckData }) {
 
         <label htmlFor="answer">Answer</label>
         <textarea
-        className="card-answer-edit-container"
+          className="card-answer-edit-container"
           type="text"
           placeholder="Answer"
           value={editCard[idx].answer}
@@ -66,18 +66,17 @@ function EditDeck({ decksId, categoryId, setShowForm, showForm, deckData }) {
       <br></br>
       {/* <h3>Edit Cards Below</h3> */}
       <form onSubmit={handleOnClick}>
-        <div style={{display: 'flex', justifyContent: "space-between", margin:'10px'}}>
-        <div className="deck-name-edit">
-
-        <label htmlFor="deckName">Edit Deck Name</label>
-        <input
-          type="text"
-          value={editForm.deckName}
-          onChange={(e) => setEditForm({ ...editForm, deckName: e.target.value })}
-          id="deckName"
-        />
-        </div>
-        <input className="card-edit-submit" type="submit" />
+        <div style={{ display: "flex", justifyContent: "space-between", margin: "10px" }}>
+          <div className="deck-name-edit">
+            <label htmlFor="deckName">Edit Deck Name</label>
+            <input
+              type="text"
+              value={editForm.deckName}
+              onChange={(e) => setEditForm({ ...editForm, deckName: e.target.value })}
+              id="deckName"
+            />
+          </div>
+          <input className="card-edit-submit" type="submit" />
         </div>
 
         {deckEdit}

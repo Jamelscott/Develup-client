@@ -7,8 +7,9 @@ A fullstack application that allows users to create flash cards and organize the
 
 ## User Stories
 ---
+* I would like to upload a picture and display it in my profile page.
 * I would like to look at community made decks.
-* I would like to create my own decks and see my own decks.
+* I would like to create decks and utilize them.
 * I would like to edit my own decks.
 
 ## Deployed Link
@@ -17,17 +18,57 @@ TBA
 ---
 ## Installation Instructions
 ---
-### Client-Side
-- Fork and clone this repository.
-- Run ` npm i ` to install the dependencies.
-- Create a .env.local and store the `REACT_APP_SERVER_URL`
-
 
 ### Server-Side
 - Fork and clone this [repository](https://github.com/Jamelscott/Develup-server)
 - Run `npm i ` to install the dependencies
-- Create a .env and store the `JWT_SECRET` and `PORT` number
+<details>
+    <summary> NPM's for Client Side </summary>
 
+    - bcrypt
+    - cloudinary
+    - cors
+    - dotenv
+    - express
+    - jsonwebtoken
+    - mongoose
+    - multer
+
+  </details>
+
+- Go to "https://cloudinary.com/users/register/free" to register for a cloudinary account
+- Once registered you should have an API Environment variable and a cloud name
+- Also make sure you have mongodb installed
+- Create a `.env` and store the `JWT_SECRET`, `PORT` number , `MONGODB_URI`, and the `CLOUDINARY_URL`
+- The file should look like:
+```
+MONGODB_URI=(mongodb://localhost/(Whatever you want your db to be called))
+JWT_SECRET=(The Secret Can BE Whatever You Want)
+CLOUDINARY_URL=(Your API Environemnt Variable from Cloudinary)
+PORT=(Whatever Port You Want)
+```
+- Also make sure to have the server running with nodemon or other means
+
+### Client-Side
+- Fork and clone this repository.
+- Run ` npm i ` to install the dependencies.
+<details>
+    <summary> NPM's for Client Side </summary>
+
+    - axios
+    - jwt-decode
+    - react-icons
+    - react-router-dom
+    - dotenv
+
+  </details>
+
+- Inside FileUploadForm.jsx + Profile.jsx for the cloudinary images to work properly you need to change "solful" to your Cloud Name
+- Create a .env.local and store the server url
+- The file should look like:
+```
+REACT_APP_SERVER_URL=(http://localhost:(THEPORTYOUDEFINEONSERVERSIDE))
+```
 
 ## Tech Used
 ---
@@ -79,6 +120,9 @@ TBA
 
 ## Wireframes
 ---
+<details>
+  <summary> Initial Planning </summary>
+
 ![Sign-In](/public/wireframes/Sign%20In.png)
 ![Register](/public/wireframes/Sign%20Up.png)
 ![Profile](/public/wireframes/Profile%20Page.png)
@@ -89,10 +133,13 @@ TBA
 ![Card-Answer](/public/wireframes/Card%20Page%20%5BAnswer%5D.png)
 ![Card-Complete](/public/wireframes/Completed%20Page.png)
 
-
+</details>
 
  ## Final Product Images
 ---
+<details>
+  <summary> Screenshots </summary>
+
 Sign In
 ![Sign-In](/public/images/signin.png)
 Sign Up
@@ -110,7 +157,7 @@ Card Question
 Card Answer
 ![Card Answer](/public/images/answer.png)
 
-
+</details>
 
  # MVPs
  ---
@@ -129,3 +176,129 @@ Card Answer
 - [] Allow users to choose pre-sets of the difficulty level (Easy, Medium, Hard)
 - [] Users are able to upload images of the decks
 - [] Making create decks and edit cards page responsive
+
+## Code Highlights
+
+```javascript
+const toggleDisplay = () => {
+    setFlip(!flip)
+  }
+
+  const handleAddNum = () => {
+    setFlip(false)
+    setAnswer("")
+    if (num >= deckData.cards.length - 1) {
+      setNum(0)
+    } else {
+      setNum(num + 1)
+    }
+  }
+  console.log(deckData.cards[num])
+
+  return (
+    <div className="card-master-container">
+      <div style={{ position: "relative" }} className="card-container">
+        <h1
+          style={{
+            position: "absolute",
+            left: "20px",
+            top: "20px",
+            color: "white",
+            textShadow: "0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black",
+          }}
+        >
+          {deckData.deckName}
+        </h1>
+        <h1
+          style={{
+            position: "absolute",
+            right: "20px",
+            top: "10px",
+            color: "white",
+            textShadow: "0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black",
+          }}
+        >
+          <p>
+            {num + 1}/{deckData.cards.length}
+          </p>
+        </h1>
+        <div>
+          <div className="card-question-container">
+            <p>
+              {deckData.cards[num] === undefined ? "This is empty" : deckData.cards[num].question}
+            </p>
+          </div>
+          <div className="card-user-answer">
+            <input
+              style={{ width: "500px", height: "50px", textAlign: "center" }}
+              type="text"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+            ></input>
+          </div>
+        </div>
+
+        {flip ? (
+          <div className="card-answer-container">
+            <p className="question-text">
+              {deckData.cards[num] === undefined ? "This is empty" : deckData.cards[num].answer}
+            </p>
+          </div>
+        ) : (
+          <div className="card-answer-ghost"></div>
+        )}
+
+        <div className="button-container">
+          {!flip ? (
+            <button className="card-buttons" onClick={toggleDisplay}>
+              Show Answer
+            </button>
+          ) : (
+            <button className="card-buttons" onClick={toggleDisplay}>
+              Hide Answer
+            </button>
+          )}
+          <br></br>
+          <button className="card-buttons-next" onClick={handleAddNum}>
+            Next Card
+          </button>
+        </div>
+      </div>
+      {currentUser.id === deckData.author ? (
+        <div className="deck-admin-tools">
+          <p>Deck Author Tools 🛠</p>
+          <button className="edit-button" onClick={() => setShowForm(!showForm)}>
+            {showForm ? "Return" : "Edit Deck"}
+          </button>
+          <br></br>
+          <button className="delete-button" onClick={handleSubmit}>
+            Delete Deck
+          </button>{" "}
+        </div>
+      ) : (
+        <></>
+      )}
+
+      {showForm ? (
+        <EditDeck
+          categoryId={id}
+          decksId={deckId}
+          category={category}
+          setShowForm={setShowForm}
+          showForm={showForm}
+          deckData={deckData}
+        />
+      ) : (
+        <></>
+      )}
+    </div>
+  )
+}
+```
+
+## Reflection
+
+Will be filled by each individual member on their own Branch
+
+## Resources 
+- https://cloudinary.com/
