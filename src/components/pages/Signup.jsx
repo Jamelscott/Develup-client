@@ -38,6 +38,8 @@ export default function Register({ currentUser, setCurrentUser, setUsers, users 
         setMsg("The two passwords you entered do not match 🥴")
       }
     } catch (err) {
+
+      console.log(err)
       if (err.response.status === 409) {
         setMsg(err.response.data.msg)
       }
