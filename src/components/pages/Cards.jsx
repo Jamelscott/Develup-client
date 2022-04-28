@@ -3,7 +3,7 @@ import { useParams, useNavigate, Navigate } from "react-router-dom"
 import EditDeck from "./EditDeck"
 import axios from "axios"
 
-export default function Cards({ category, setCategory, currentUser }) {
+export default function Cards({ category, setCurrentCategory, setCategory, currentUser }) {
   const { id, deckId } = useParams()
   const [deckData, setDeckData] = useState({
     cards: [],
@@ -53,7 +53,10 @@ export default function Cards({ category, setCategory, currentUser }) {
       setNum(num + 1)
     }
   }
-  console.log(deckData.cards[num])
+  useEffect(() => {
+
+    setCurrentCategory(`${deckData.deckName} deck`)
+  }, [deckData.deckName])
 
   return (
     <div className="card-master-container">

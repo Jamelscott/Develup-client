@@ -3,7 +3,7 @@ import axios from "axios"
 import VisibleCards from "./VisibleCards"
 import { useNavigate } from "react-router-dom"
 
-function Create({ currentUser, setCategory, category }) {
+function Create({ currentUser, setCurrentCategory, setCategory, category }) {
   const [msg, setMsg] = useState("")
   const [cards, setCards] = useState([{ question: "", answer: "" }])
   const [currentCards, setCurrentCards] = useState({})
@@ -30,8 +30,14 @@ function Create({ currentUser, setCategory, category }) {
   }
 
   const handleAddCard = (question, answer) => {
-    setNewCard([...newCard, { question: question, answer: answer }])
-    setForm({ ...form, cards: [...form.cards, currentCards] })
+    if( currentCards.answer == "" || currentCards.question == ""){
+      return
+    } else {
+
+      setNewCard([...newCard, { question: question, answer: answer }])
+      setForm({ ...form, cards: [...form.cards, currentCards] })
+      setCurrentCards({answer: "", question:""})
+    }
   }
 
   const handleNewCards = (e) => {
@@ -54,7 +60,11 @@ function Create({ currentUser, setCategory, category }) {
       console.log(err)
     }
   }
-
+  
+  useEffect(()=>{
+    setCurrentCategory("Create a deck")
+  },[])
+  
   return (
     <>
       {msg ? (
@@ -63,7 +73,7 @@ function Create({ currentUser, setCategory, category }) {
         </h3>
       ) : (
         <></>
-      )}
+        )}
       <div>
         <div>
           <form className="create-container-main" onSubmit={submitDeck}>
@@ -99,7 +109,6 @@ function Create({ currentUser, setCategory, category }) {
                 />
               </div>
               <div>
-                <input className="submit-deck" type="submit" value="Create deck" />
               </div>
               <div className="create-card-div">
                 <label hidden htmlFor="card-question">
@@ -141,6 +150,7 @@ function Create({ currentUser, setCategory, category }) {
                   />
                 </div>
               </div>
+              <input className="submit-deck" type="submit" value="Create deck" />
             </div>
             <div className="create-container-right">
               <VisibleCards

@@ -3,12 +3,12 @@ import * as FaIcons from "react-icons/fa"
 import * as AiIcons from "react-icons/ai"
 import * as MdIcons from "react-icons/md"
 import * as IoIcons from 'react-icons/io';
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useState } from "react"
 import { SidebarData } from "./SidebarData"
 import "./navbar.css"
 
-function Navbar({ currentUser, handleLogout, users}) {
+function Navbar({ currentUser, handleLogout, category, currentCategory}) {
   const [sidebar, setsidebar] = useState(false)
 
   const showSidebar = () => {
@@ -43,21 +43,19 @@ function Navbar({ currentUser, handleLogout, users}) {
       </li>
     </>
   )
-
-  // let foundUser = users.find((user) => {
-  //   return  user._id === currentUser.id
-  // })
-  // console.log(foundUser.avatar)
+  console.log(currentCategory)
 
   return (
-    <div style={{zIndex: "1"}}>
+    <div style={{zIndex: "10"}}>
       <div className="navbar">
         <Link to="#" className="menu-bars">
           <FaIcons.FaBars style={{ color: "white" }} onClick={showSidebar} />
         </Link>
-        <div style={{display: "flex", flexDirection:"row"}}>
+    <div><h3 className="centerText">{!currentCategory ? <></> : currentCategory}</h3></div>
+        <div style={{display: "flex", flexDirection:"row", width:"250px", justifyContent:"flex-end"}}>
+
       <img alt="user" style={{ height: "40px", width: "40px", margin: "0" }} src="./logo.png"></img>
-          <h1 style={{color: "white", padding: "0 20px 0 20px"}}>DevelUp +</h1>
+          <h2 style={{color: "white", padding: "0 20px 0 20px"}}>DevelUp +</h2>
 
         </div>
       </div>
@@ -69,11 +67,6 @@ function Navbar({ currentUser, handleLogout, users}) {
             </Link>
           </li>
           <li className="nav-text-nohover">
-    {/* {foundUser.avatar ?
-      <img alt="user" style={{ height: "40px", width: "40px", margin: "0" }} src={`https://res.cloudinary.com/solful/image/upload/c_thumb,g_face,h_200,w_200/${foundUser.avatar}.png`}></img> 
-      :
-     <img alt="user" style={{ height: "40px", width: "40px", margin: "0" }} src="./logo.png"></img>} */}
-
      <img alt="user" style={{ height: "40px", width: "40px", margin: "0" }} src="./logo.png"></img>
             {currentUser ? (
               <p className="nav-text">Hello, {currentUser.name}!</p>

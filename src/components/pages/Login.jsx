@@ -1,50 +1,60 @@
-import { useState } from "react"
-import axios from "axios"
-import jwt_decode from "jwt-decode"
-import { Navigate } from "react-router-dom"
-import "../layout/Login.css"
+import { useState } from 'react';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+import { Navigate } from 'react-router-dom';
+import '../layout/Login.css';
 
 export default function Login({ currentUser, setCurrentUser }) {
   const [form, setForm] = useState({
-    email: "",
-    password: "",
-  })
+    email: '',
+    password: '',
+  });
 
-  const [msg, setMessage] = useState("")
+  const [msg, setMessage] = useState('');
 
   const handleFormSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       // post to the backend with the form data to login
       const response = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api-v1/users/login`,
         form
-      )
+      );
 
       // decode the token that is sent to use
-      const { token } = response.data
-      const decoded = jwt_decode(token)
+      const { token } = response.data;
+      const decoded = jwt_decode(token);
 
       // save the token in the localStorage
-      localStorage.setItem("jwt", token)
+      localStorage.setItem('jwt', token);
 
       // set the state to the logged in user
       // console.log(decoded)
-      setCurrentUser(decoded)
+      setCurrentUser(decoded);
     } catch (err) {
       // handle errors such as wrong credentials
       if (err.response.status === 400) {
-        console.log(err.response.data)
-        setMessage(err.response.data.msg)
+        console.log(err.response.data);
+        setMessage(err.response.data.msg);
       }
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 
   // navigate to the user's profile if currentUser is NOT null
-  if (currentUser) return <Navigate to="/category" />
+  if (currentUser) return <Navigate to="/category" />;
   return (
     <div className="container">
+      <div className="about">
+        <h2>What is DevelUp?</h2>
+        <h5>
+          Develup is an applicationion that makes remembering things easy.
+          Studies have shown that spaced repitition and active recall practices
+          greatly decrease your time spent studying, or greatly increase the
+          amount you learn. DevelUp allows users to build and study their own or
+          community made flashcard decks.
+        </h5>
+      </div>
       <div className="title-Main">
         <div className="image-Container">
           <img src="/logo.png" />
@@ -56,7 +66,7 @@ export default function Login({ currentUser, setCurrentUser }) {
       <div className="formContainer">
         <div className="subMain">
           <h1 className="sign-in">Sign In</h1>
-          <h5 className="error-msg">{msg ? `${msg}` : ""}</h5>
+          <h5 className="error-msg">{msg ? `${msg}` : ''}</h5>
         </div>
 
         <form onSubmit={handleFormSubmit}>
@@ -88,7 +98,7 @@ export default function Login({ currentUser, setCurrentUser }) {
             Enter
           </button>
           <p>
-            Don't have an account?{" "}
+            Don't have an account?{' '}
             <a href="/signup" className="a-tag">
               Create one
             </a>
@@ -96,5 +106,5 @@ export default function Login({ currentUser, setCurrentUser }) {
         </form>
       </div>
     </div>
-  )
+  );
 }

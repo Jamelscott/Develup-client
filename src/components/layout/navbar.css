@@ -14,7 +14,7 @@
 }
 
 .navbar{
-    z-index: 9999;
+    z-index: 10;
     display:flex;
     justify-content: space-between;
     background-color: #283342;
@@ -24,12 +24,14 @@
     align-items: center;
 }
 .menu-bars{
-    margin-left: 2rem;
+    padding-left: 2rem;
     font-size: 2rem;
     background: none;
+    width: 250px;
 }
 
 .nav-menu{
+    z-index: 2;
     background-color: #283342;
     width: 250px;
     height: 100vh;
@@ -120,3 +122,12 @@ span{
     flex-direction: column;
     justify-content: space-between;
 } */
+
+.centerText{
+    color: white;
+
+}
+
+@media screen and (max-width:"1400px"){
+    /* . */
+}

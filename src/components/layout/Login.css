@@ -36,15 +36,17 @@
 .formContainer {
     background-color: rgba(36,45,58);
     width: 350.71px;
-    height: 270px;
+    height: 290px;
     top: 109px;
     left: 427px;
-    margin: auto;
+    /* margin: auto; */
     color: white;
+    /* padding-bottom: 20px; */
     border: 2.35753px solid #283342;
 }
 .error-msg {
-    color: red;
+    color: rgb(255, 145, 145);
+    font-weight: 100;
 }
 
 .emailInput {

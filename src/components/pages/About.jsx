@@ -1,7 +1,14 @@
 import "../layout/About.css"
 import { FaGithub, FaLinkedin } from "react-icons/fa"
+import { useEffect } from "react"
 
-export default function Contact() {
+export default function Contact({setCurrentCategory}) {
+
+  useEffect(() => {
+    
+    setCurrentCategory("About the devs")
+
+  }, [])
   return (
     <>
       <div className="main-title" src="blue-gradient.jpeg">

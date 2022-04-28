@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
-export default function Category({ category }) {
+export default function Category({ category, setCurrentCategory }) {
   const categoryLinks = category.map((category, i) => {
     return (
       <Link
@@ -20,9 +21,13 @@ export default function Category({ category }) {
     );
   });
 
+  useEffect(() => {
+
+    setCurrentCategory("Select a Category")
+  }, [])
+
   return (
-    <div style={{ textAlign: 'center' }}>
-      <h1>View all Categories:</h1>
+    <div style={{ textAlign: 'center',marginTop:"30px" }}>
       <div className="category-container">{categoryLinks}</div>
     </div>
   );

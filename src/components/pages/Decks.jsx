@@ -1,19 +1,27 @@
 import { useParams, Link } from "react-router-dom"
+import { useEffect } from "react"
 
-export default function Deck({ category, users }) {
+export default function Deck({ category, users, setCurrentCategory }) {
   const { id } = useParams()
 
   let deckIdx = category.findIndex((object) => {
     return object._id === id
   })
   let showAllDecks
+  useEffect(() => {
+
+    setCurrentCategory(`${category[deckIdx].name} decks`)
+  }, [])
   if (deckIdx != -1) {
     showAllDecks = category[deckIdx].decks.map((deck, i) => {
       let userIdx = users.findIndex((object) => {
         return object._id === deck.author
       })
+
+
+
       return (
-        <>
+        <div key={`link-link${i}`}>
           <Link
             key={`link-link${i}`}
             to={`/category/${id}/deck/${deck._id}`}
@@ -38,14 +46,13 @@ export default function Deck({ category, users }) {
               </div>
             </div>
           </Link>
-        </>
+        </div>
       )
     })
   }
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>{category[deckIdx].name} Decks</h1>
+    <div style={{ textAlign: "center", marginTop: "30px" }}>
       <div className="category-container">{showAllDecks}</div>
     </div>
   )

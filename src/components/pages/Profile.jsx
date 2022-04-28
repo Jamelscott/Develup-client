@@ -3,7 +3,7 @@ import FileUploadForm from "../FileUploadForm"
 import axios from "axios"
 import "../layout/profile.css"
 
-export default function Profile({ currentUser, users }) {
+export default function Profile({ currentUser, users, setCurrentCategory }) {
   const [displayImg, setDisplayImg] = useState("")
 
   // let foundUser = users.find((user) => {
@@ -12,6 +12,7 @@ export default function Profile({ currentUser, users }) {
   // console.log(users)
 
   useEffect(() => {
+    setCurrentCategory(`${currentUser.name}'s Profile`)
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/api-v1/users/${currentUser.id}`)
       .then((response) => {
@@ -26,7 +27,7 @@ export default function Profile({ currentUser, users }) {
 
   return (
     <div className="center">
-      <h1>{currentUser.name}'s Profile</h1>
+      {/* <h1>{currentUser.name}'s Profile</h1> */}
       {displayImg ===
       `https://res.cloudinary.com/solful/image/upload/c_thumb,g_face,h_300,w_300/undefined.png` ? (
         "No Profile Picture"
